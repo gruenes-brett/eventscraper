@@ -46,6 +46,12 @@ class Scraper:
 class FacebookEventScraper(Scraper):
     """
     Scraper for Facebook events
+
+    Very basic implementation:
+    The event information is embedded in a <script></script> block as plain JSON. This is
+    great, also it doesn't seem to work for every events.
+
+    TODO: Improvement needed
     """
     PAYLOAD_MATCHER = re.compile(r'<script type="application/ld\+json".*>(.*"startDate".*"name".*)</script>')
     @classmethod
