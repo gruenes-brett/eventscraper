@@ -5,12 +5,18 @@ import re
 from uscrapeme.webrequest import Request
 
 class Scraper:
+    """
+    Base class and entry point for website specific scrapers
+    """
+    RESPONSE_FILE = 'response.html'
     @classmethod
     def get_scrapers(cls):
         return [FacebookEventScraper]
 
     @classmethod
     def scrape(cls, url):
+        if os.path.isfile(cls.RESPONSE_FILE):
+            os.remove(cls.RESPONSE_FILE)
         for scraper_class in cls.get_scrapers():
             if scraper_class.matches(url):
                 scraper = scraper_class(url)
@@ -29,7 +35,7 @@ class Scraper:
     def _scrape(self):
         r = Request(self._url)
         text = r.get_response()
-        with open('response.html', 'w') as f:
+        with open(self.RESPONSE_FILE, 'w') as f:
             f.write(text)
         return self._interpret_response(text)
 
@@ -38,6 +44,9 @@ class Scraper:
 
 
 class FacebookEventScraper(Scraper):
+    """
+    Scraper for Facebook events
+    """
     PAYLOAD_MATCHER = re.compile(r'<script type="application/ld\+json".*>(.*"startDate".*"name".*)</script>')
     @classmethod
     def matches(cls, url):
