@@ -8,9 +8,6 @@ from uscrapeme.scraper import Scraper
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
-url = 'https://www.facebook.com/events/378105466520257'
-# url = 'https://www.facebook.com/events/245877779996249'
-url = 'https://www.facebook.com/events/745142963003591'
 RESULT_FILE = 'result.json'
 
 def main():
