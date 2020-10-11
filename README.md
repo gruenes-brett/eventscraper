@@ -34,11 +34,15 @@ saved to `response.html`.
    the apache user
    
    ```
-   chmod -R 0775 .
-   chown -R :www-data
+   sudo chmod -R g+r .
+   sudo chown -R :www-data .
    ```
    
-3. Install a virtual host that calls the WSGI script
+3. Install apache2 WSGI module
+
+   `sudo apt install libapache2-mod-wsgi-py3`
+   
+4. Install a virtual host that calls the WSGI script
 
     `./install_apache2_vhost.bash`
     

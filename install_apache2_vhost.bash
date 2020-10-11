@@ -20,4 +20,4 @@ sudo ln -s -t /etc/apache2/conf-enabled $VHOST_FILE
 
 echo "Reloading apache2"
 sudo service apache2 reload
-echo "OK"
+sudo service apache2 status
