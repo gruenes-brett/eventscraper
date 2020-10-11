@@ -1,3 +1,5 @@
 /response.html
 /result.json
 /.idea
+/.venv/
+/event-scraper-vhost.conf
