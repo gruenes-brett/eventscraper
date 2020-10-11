@@ -21,7 +21,7 @@ class ApiServer(Flask):
                 abort(Response(f'Could not get event data from {url}: {e}', status=500))
             return jsonify({'url': url, 'data': data})
 
+server = ApiServer(__name__)
 
 if __name__ == '__main__':
-    server = ApiServer(__name__)
     server.run(debug=False)
