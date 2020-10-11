@@ -1,8 +1,11 @@
 import json
+import logging
 import os
 import re
 
 from uscrapeme.webrequest import Request
+
+log = logging.getLogger(__name__)
 
 class Scraper:
     """
@@ -35,8 +38,11 @@ class Scraper:
     def _scrape(self):
         r = Request(self._url)
         text = r.get_response()
-        with open(self.RESPONSE_FILE, 'w') as f:
-            f.write(text)
+        try:
+            with open(self.RESPONSE_FILE, 'w') as f:
+                f.write(text)
+        except Exception as e:
+            log.warning(str(e))
         return self._interpret_response(text)
 
     def _interpret_response(self, response: str):
