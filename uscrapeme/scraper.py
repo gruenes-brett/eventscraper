@@ -3,7 +3,7 @@ import logging
 import os
 import re
 
-from uscrapeme.webrequest import Request
+from webrequest import Request
 
 log = logging.getLogger(__name__)
 
@@ -69,4 +69,3 @@ class FacebookEventScraper(Scraper):
         if not matches:
             raise ValueError(f'Response to {self._url} does not contain expected payload match')
         return json.loads(matches[0])
-

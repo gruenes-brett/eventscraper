@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, abort, Response
 
-from uscrapeme.scraper import Scraper
+from scraper import Scraper
 
 
 class ApiServer(Flask):
