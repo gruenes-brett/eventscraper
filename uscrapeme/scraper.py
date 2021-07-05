@@ -62,7 +62,7 @@ class FacebookEventScraper(Scraper):
     PAYLOAD_MATCHER = re.compile(r'<script type="application/ld\+json".*>(.*"startDate".*"name".*)</script>')
     @classmethod
     def matches(cls, url):
-        return 'facebook.' in url and '/events/' in url
+        return ('facebook.' in url and '/events/' in url) or 'fb.me' in url
 
     def _interpret_response(self, response: str):
         matches = self.PAYLOAD_MATCHER.findall(response)
