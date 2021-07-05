@@ -28,11 +28,17 @@ saved to `response.html`.
 
 Create container:
 
-`sudo docker build -t uscrapeme .`
+`sudo docker build -t uscrapeme:1.3 .`
 
 Run container:
 
-`docker run -p 9080:80 uscrapeme`
+`docker run -p 9080:80 uscrapeme:1.3`
+
+Save container:
+
+`docker save uscrapeme:1.3 | gzip > uscrapeme-1.3.tar.gz
+```
+
 
 ## Install as Flask app running on apache2
 
