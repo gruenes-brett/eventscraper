@@ -36,8 +36,7 @@ Run container:
 
 Save container:
 
-`docker save uscrapeme:1.3 | gzip > uscrapeme-1.3.tar.gz
-```
+`docker save uscrapeme:1.3 | gzip > uscrapeme-1.3.tar.gz`
 
 
 ## Install as Flask app running on apache2
