@@ -3,20 +3,30 @@
 This Python tool scrapes event data from websites (currently only
 Facebook) and returns the event information as JSON.
 
+Using the below setup steps, the service will be installed as an
+Apache Vhost that is accessible at http://127.0.0.1:5050
+
+## Usage when running as Flask WSGI app
+
+http://127.0.0.1:5050/api/scrape?url=https://www.facebook.com/events/12345
+
 ## Requirements
 
 * Python 3.6 or higher
-* pipenv
+* Apache2 web server
+* Tested on Ubuntu 20.04 LTS
 
 **Initial setup**
 ```
-pip3 install pipenv
-pipenv sync
+./install_requirements.bash
+./init_venv.bash
+./install_apache2_vhost.bash
 ```
 
 ## Command line usage
 ```
-pipenv run scrape <url>
+source venv/bin/activate
+python -m eventscraper <url>
 ```
 If the exit code is 0, the scraped data is saved to
 `result.json`.
@@ -36,34 +46,4 @@ Run container:
 
 Save container:
 
-`docker save uscrapeme:1.3 | gzip > uscrapeme-1.3.tar.gz`
-
-
-## Install as Flask app running on apache2
-
-1. Make sure to initialize the venv inside the current
-   project directory
-
-   `./init_venv.bash`
-2. The current directory contents must be readable by
-   the apache user
-
-   ```
-   sudo chmod -R g+r .
-   sudo chown -R :www-data .
-   ```
-
-3. Install apache2 WSGI module
-
-   `sudo apt install libapache2-mod-wsgi-py3`
-
-4. Install a virtual host that calls the WSGI script
-
-    `./install_apache2_vhost.bash`
-
-    You will be prompted for the port the app should be running on.
-    (e.g., 8080)
-
-### Usage via GET request
-
-http://localhost:8080/api/scraper?url=https://www.facebook.com/events/12345
+`docker save eventscraper:1.3 | gzip > eventscraper-1.3.tar.gz`

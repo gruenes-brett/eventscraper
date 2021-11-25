@@ -1,7 +1,6 @@
-import subprocess
 import os
 
-venv = os.path.join(os.path.dirname(__file__), '.venv')
+venv = os.path.join(os.path.dirname(__file__), 'venv')
 
 if not os.path.isdir(venv):
     raise RuntimeError(f'Virtualenv not initialized in {venv}. Please execute "init_venv.bash".')

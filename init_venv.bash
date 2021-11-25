@@ -1,4 +1,4 @@
 #!/bin/bash
 
-export PIPENV_VENV_IN_PROJECT=1
-pipenv sync
+python3 -m virtualenv venv
+venv/bin/python -m pip install -r requirements.txt

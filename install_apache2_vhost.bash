@@ -1,14 +1,17 @@
 #!/bin/bash
 
 PROJECT_DIR=$(pwd)
+HTTP_PORT=5050
+HOST=127.0.0.1
 
-echo "VirtualHost will be installed to point to $PROJECT_DIR."
+source venv/bin/activate
 
-echo "Please enter the port where the service should be accessible on:"
-read HTTP_PORT
+echo -e "VirtualHost will be installed to point to $PROJECT_DIR.\n"
+
+echo -e "The service will be accessible at $HOST:$HTTP_PORT\n"
 
 VHOST_FILE=$PROJECT_DIR/event-scraper-vhost.conf
-cat event-scraper-vhost-template.conf | sed s~XpathX~$PROJECT_DIR~g | sed s~XportX~$HTTP_PORT~g > $VHOST_FILE
+jinja2 event-scraper-vhost-template.conf -D "base_path=$PROJECT_DIR" -D port=$HTTP_PORT -D host=$HOST > $VHOST_FILE
 echo "$VHOST_FILE written"
 
 TARGET=/etc/apache2/conf-enabled/event-scraper-vhost.conf

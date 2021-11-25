@@ -3,7 +3,7 @@ import logging
 import os
 import re
 
-from webrequest import Request
+from .webrequest import Request
 
 log = logging.getLogger(__name__)
 
