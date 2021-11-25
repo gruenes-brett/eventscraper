@@ -6,4 +6,4 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 import activate_venv
 
-from uscrapeme.apiserver import server as application
+from eventscraper.apiserver import server as application

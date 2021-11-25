@@ -28,11 +28,11 @@ saved to `response.html`.
 
 Create container:
 
-`sudo docker build -t uscrapeme:1.3 .`
+`sudo docker build -t eventscraper:1.3 .`
 
 Run container:
 
-`docker run -p 9080:80 uscrapeme:1.3`
+`docker run -p 9080:80 eventscraper:1.3`
 
 Save container:
 
