@@ -2,3 +2,4 @@ Flask>=2.0.1
 requests>=2.25.1
 Jinja2>=3.0.0
 jinja2-cli>=0.7.0
+git+https://github.com/robertsmd/fake-useragent.git@robertsmd-feature-only-newest-uas#egg=fake-useragent
