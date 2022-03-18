@@ -28,7 +28,7 @@ class Scraper:
             try:
                 os.remove(cls.RESPONSE_FILE)
             except Exception:
-                log.exception(f'failed to remove {self.RESPONSE_FILE}')
+                log.exception(f'failed to remove {cls.RESPONSE_FILE}')
         for scraper_class in cls.get_scrapers():
             if scraper_class.matches(url):
                 scraper = scraper_class(url)
