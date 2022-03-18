@@ -25,7 +25,10 @@ class Scraper:
     @classmethod
     def scrape(cls, url) -> EventData:
         if os.path.isfile(cls.RESPONSE_FILE):
-            os.remove(cls.RESPONSE_FILE)
+            try:
+                os.remove(cls.RESPONSE_FILE)
+            except Exception:
+                log.exception(f'failed to remove {self.RESPONSE_FILE}')
         for scraper_class in cls.get_scrapers():
             if scraper_class.matches(url):
                 scraper = scraper_class(url)
