@@ -16,6 +16,16 @@ class BundEventScraper(Scraper):
     Scraper for www.bund-sachsen.de
 
     """
+    MONTHS = {
+        'Januar=': 'January',
+        'Februar': 'February',
+        'März': 'March',
+        'Mai': 'May',
+        'Juni': 'June',
+        'Juli': 'July',
+        'Oktober': 'October',
+        'Dezember': 'December',
+    }
     @classmethod
     def matches(cls, url):
         return ('bund-sachsen.de' in url and '/event/' in url)
@@ -25,7 +35,7 @@ class BundEventScraper(Scraper):
         url = self._get_meta_content(response_soup, 'og:url')
 
         details_soup = response_soup.find('div', class_='m-sidebar-content')
-        start_date, end_date, location = self.__extract_details(details_soup)
+        start_date, end_date, location, organizer = self.__extract_details(details_soup)
 
         description = self._extract_description(response_soup)
 
@@ -36,6 +46,7 @@ class BundEventScraper(Scraper):
             end_date=end_date,
             url=url,
             description=description,
+            organizer=organizer,
         )
         return event_data
 
@@ -65,7 +76,7 @@ class BundEventScraper(Scraper):
             if key is None:
                 key = str(paragraph.string).strip()
             else:
-                detail_values[key] = str(paragraph.string).strip()
+                detail_values[key] = str(paragraph.text).strip().replace('\n', ', ')
                 key = None
 
         start_date = detail_values.get('Startdatum:')
@@ -75,15 +86,15 @@ class BundEventScraper(Scraper):
         if end_date:
             end_date = self.__parse_german_date(end_date)
         location = detail_values.get('Ort:')
-        return start_date, end_date, location
+        organizer = detail_values.get('Veranstalter:')
+        return start_date, end_date, location, organizer
 
     def __parse_german_date(self, date_string):
         current_locale = locale.getlocale(locale.LC_TIME)
+        for german, english in self.MONTHS.items():
+            date_string = date_string.replace(german, english)
         try:
-            locale.setlocale(locale.LC_TIME, 'de_DE.UTF-8')
             date = datetime.datetime.strptime(date_string, '%d. %B %Y')
             return date.strftime('%Y-%m-%dT12:00')
         except Exception as e:
             log.exception(f'Could not parse date string "{date_string}"')
-        finally:
-            locale.setlocale(locale.LC_TIME, current_locale)
