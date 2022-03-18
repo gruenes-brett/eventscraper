@@ -2,6 +2,7 @@ import datetime
 import json
 import locale
 import logging
+import re
 from typing import Dict
 
 from bs4 import BeautifulSoup
@@ -28,7 +29,7 @@ class BundEventScraper(Scraper):
     }
     @classmethod
     def matches(cls, url):
-        return ('bund-sachsen.de' in url and '/event/' in url)
+        return re.match('.*bund-[a-zA-Z]+.de.*', url) and '/event/' in url
 
     def _interpret_response_soup(self, response_soup: BeautifulSoup) -> Dict:
         title = str(response_soup.title.string)
