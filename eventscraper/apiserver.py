@@ -1,3 +1,5 @@
+import dataclasses
+
 from flask import Flask, request, jsonify, abort, Response
 
 from .scraper import Scraper
@@ -16,10 +18,11 @@ class ApiServer(Flask):
             if url is None:
                 abort(Response('Missing parameter: url', status=400))
             try:
-                data = Scraper.scrape(url)
+                data = dataclasses.asdict(Scraper.scrape(url))
             except Exception as e:
                 abort(Response(f'Could not get event data from {url}: {e}', status=500))
             return jsonify({'url': url, 'data': data})
+
 
 server = ApiServer(__name__)
 

@@ -1,4 +1,5 @@
 import argparse
+import dataclasses
 import json
 import logging
 import os
@@ -9,6 +10,7 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
 RESULT_FILE = 'result.json'
+
 
 def main():
     if os.path.isfile(RESULT_FILE):
@@ -26,10 +28,15 @@ def main():
         log.setLevel(logging.DEBUG)
 
     # scrape data from url
-    result = Scraper.scrape(url)
-    log.info(f'result: {result}')
-    with open(RESULT_FILE, 'w') as f:
-        json.dump(result, f, indent=4)
+    result = dataclasses.asdict(Scraper.scrape(url))
+    result_json = json.dumps(result, indent=4)
+    log.info(f'result: {result_json}')
+    try:
+        with open(RESULT_FILE, 'w', encoding='utf-8') as f:
+            f.write(result_json)
+    except Exception:
+        log.exception(f'Could not write {RESULT_FILE}')
 
 
-main()
+if __name__ == '__main__':
+    main()
