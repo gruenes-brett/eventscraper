@@ -1,5 +1,4 @@
 import datetime
-import json
 import locale
 import logging
 import re

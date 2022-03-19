@@ -1,7 +1,5 @@
-import json
 import logging
 import os
-import re
 from typing import Dict
 
 from bs4 import BeautifulSoup
@@ -11,11 +9,13 @@ from .webrequest import Request
 
 log = logging.getLogger(__name__)
 
+
 class Scraper:
     """
     Base class and entry point for website specific scrapers
     """
     RESPONSE_FILE = 'response.html'
+
     @classmethod
     def get_scrapers(cls):
         from .scrapers.bundscraper import BundEventScraper

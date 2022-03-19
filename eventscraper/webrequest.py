@@ -23,10 +23,10 @@ class Request:
         }
     ]
 
-    def __init__(self, url):
-        self._url = url
+    def __init__(self, url: str):
+        self._url: str = url
 
-    def get_response(self, payload=None):
+    def get_response(self, payload=None) -> str:
         session = Session()
         session.headers.update(self._get_random_headers())
         log.info(f'Headers: {session.headers}')
