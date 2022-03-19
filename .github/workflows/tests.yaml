@@ -23,5 +23,5 @@ jobs:
     - name: Test with pytest
       run: |
         source venv/bin/activate
-        pyton3 -m pytest --exitfirst --verbose --failed-first \
+        python3 -m pytest --exitfirst --verbose --failed-first \
         --cov=. --cov-report html
