@@ -3,3 +3,4 @@
 /.idea
 /venv/
 /event-scraper-vhost.conf
+/.coverage
