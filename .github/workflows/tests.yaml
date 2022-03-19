@@ -17,7 +17,7 @@ jobs:
 
     - name: Install Python virtualenv
       run: |
-        sudo apt install -y python3-virtualenv
+        python3 -m pip install virtualenv
         ./init_venv.bash
 
     - name: Test with pytest
