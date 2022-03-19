@@ -1,0 +1,27 @@
+name: Tests
+on: [push]
+
+jobs:
+  build:
+    name: Run Python Tests
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install Python virtualenv
+      run: |
+        sudo apt install -y python3-virtualenv
+        ./init_venv.bash
+
+    - name: Test with pytest
+      run: |
+        source venv/bin/activate
+        pyton3 -m pytest --exitfirst --verbose --failed-first \
+        --cov=. --cov-report html
