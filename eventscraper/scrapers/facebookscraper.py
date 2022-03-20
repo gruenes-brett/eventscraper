@@ -1,4 +1,4 @@
-from .ApplicationLdJsonScraper import ApplicationLdJsonScraper
+from .applicationldjsonscraper import ApplicationLdJsonScraper
 
 
 class FacebookEventScraper(ApplicationLdJsonScraper):

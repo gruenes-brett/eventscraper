@@ -1,6 +1,6 @@
 import logging
 
-from .ApplicationLdJsonScraper import ApplicationLdJsonScraper
+from .applicationldjsonscraper import ApplicationLdJsonScraper
 
 log = logging.getLogger(__name__)
 

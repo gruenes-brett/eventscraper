@@ -1,4 +1,4 @@
-from eventscraper.scrapers.ApplicationLdJsonScraper import ApplicationLdJsonScraper
+from eventscraper.scrapers.applicationldjsonscraper import ApplicationLdJsonScraper
 
 
 def test_convert_numbers_to_strings_in_json():
