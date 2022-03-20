@@ -31,7 +31,7 @@ class ApplicationLdJsonScraper(Scraper, ABC):
     def clean_invalid_json(json_string: str):
         """Remove weird trailing characters in json string
         """
-        return re.sub(r',\s*<!----><!---->\s*\}', '}', json_string)
+        return json_string.replace('<!---->', '')
 
     @staticmethod
     def drop_invalid_lines(json_string: str):
@@ -89,7 +89,7 @@ class ApplicationLdJsonScraper(Scraper, ABC):
             data = json.loads(json_string)
         except json.JSONDecodeError as e:
             log.error(f'Could not interpret as json: {json_string}')
-            log.error(f'Error in line {e.lineno} near "{json_string[e.pos-10:e.pos+10]}"')
+            log.error(f'Error in line {e.lineno} near "[...]{json_string[e.pos-10:e.pos+10]}[...]"')
             if cleanup_methods:
                 log.info(f'Retrying with cleanup method {cleanup_methods[0].__name__}')
                 return self._parse_json(cleanup_methods[0](json_string), cleanup_methods[1:])

@@ -30,13 +30,15 @@ def test_clean_invalid_json():
         "some": "where",
         "over": "the rainbow",
         
-        <!----><!---->  }
+        <!----><!----><!---->  }
     ''')
 
     assert '''
     {
         "some": "where",
-        "over": "the rainbow"}
+        "over": "the rainbow",
+        
+          }
     ''' == cleaned
 
 
