@@ -38,3 +38,38 @@ def test_clean_invalid_json():
         "some": "where",
         "over": "the rainbow"}
     ''' == cleaned
+
+
+def test_drop_invalid_lines():
+    cleaned = ApplicationLdJsonScraper.drop_invalid_lines('''
+    {
+        "some": "where",
+        "over": "the "rainbow"",
+        "way": "up high"
+    }
+    ''')
+
+    assert '''
+    {
+        "some": "where",
+        "way": "up high"
+    }
+    ''' == cleaned
+
+
+def test_remove_superfluous_commata():
+    cleaned = ApplicationLdJsonScraper.remove_superfluous_commata('''
+    {
+        "some": "where",
+        "over": {
+            "the": "rainbow",
+        },
+    }
+    ''')
+
+    assert '''
+    {
+        "some": "where",
+        "over": {
+            "the": "rainbow" } }
+    ''' == cleaned

@@ -3,7 +3,7 @@ from typing import Type
 from eventscraper.scraper import Scraper
 
 
-def test_bund1(scraper_dummy: Type[Scraper]):
+def test_adfc1(scraper_dummy: Type[Scraper]):
     event_data = scraper_dummy.scrape('https://touren-termine.adfc.de/radveranstaltung/adfc1.html')
     assert event_data.title == 'Globaler Klimastreik'
     assert event_data.location == 'Augustusplatz, 04109 Leipzig'
@@ -12,4 +12,15 @@ def test_bund1(scraper_dummy: Type[Scraper]):
     assert event_data.url == 'https://touren-termine.adfc.de/radveranstaltung/adfc1.html'
     assert event_data.start_date == '2022-03-25T09:00:00+00:00'
     assert event_data.end_date == '2022-03-25T17:00:00+00:00'
+    assert event_data.organizer == ''
+
+
+def test_adfc2_problematic(scraper_dummy: Type[Scraper]):
+    event_data = scraper_dummy.scrape('https://touren-termine.adfc.de/radveranstaltung/adfc2_problematic.html')
+    assert event_data.title == 'Online moderieren und aktivieren (online)'
+    assert event_data.location == 'Mohrenstraße 69, 10117 Berlin'
+    assert event_data.description is None
+    assert event_data.url == 'https://touren-termine.adfc.de/radveranstaltung/adfc2_problematic.html'
+    assert event_data.start_date == '2022-04-09T08:00:00+00:00'
+    assert event_data.end_date == '2022-04-09T11:00:00+00:00'
     assert event_data.organizer == ''
