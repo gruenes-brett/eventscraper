@@ -76,7 +76,7 @@ class ApplicationLdJsonScraper(Scraper, ABC):
         event_data = EventData(
             title=data.get('name'),
             location=data.get('location', {}).get('name'),
-            description=data.get('description'),
+            description=data.get('description', '! Could not read description !'),
             url=data.get('url', self._url),
             start_date=data.get('startDate'),
             end_date=data.get('endDate'),
