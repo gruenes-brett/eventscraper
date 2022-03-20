@@ -30,7 +30,7 @@ class BundEventScraper(Scraper):
     def matches(cls, url):
         return re.match('.*bund-[a-zA-Z]+.de.*', url) and '/event/' in url
 
-    def _interpret_response_soup(self, response_soup: BeautifulSoup) -> Dict:
+    def _interpret_response_soup(self, response_soup: BeautifulSoup) -> EventData:
         title = str(response_soup.title.string)
         url = self._get_meta_content(response_soup, 'og:url')
 

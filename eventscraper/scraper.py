@@ -1,6 +1,5 @@
 import logging
 import os
-from typing import Dict
 
 from bs4 import BeautifulSoup
 
@@ -20,7 +19,8 @@ class Scraper:
     def get_scrapers(cls):
         from .scrapers.bundscraper import BundEventScraper
         from .scrapers.facebookscraper import FacebookEventScraper
-        return [FacebookEventScraper, BundEventScraper]
+        from .scrapers.adfcscraper import AdfcScraper
+        return [FacebookEventScraper, BundEventScraper, AdfcScraper]
 
     @classmethod
     def scrape(cls, url) -> EventData:
@@ -58,10 +58,10 @@ class Scraper:
             soup = BeautifulSoup(text, 'html.parser')
             return self._interpret_response_soup(soup)
 
-    def _interpret_response(self, response_text: str) -> Dict:
+    def _interpret_response(self, response_text: str) -> EventData:
         raise NotImplementedError()
 
-    def _interpret_response_soup(self, response_soup: BeautifulSoup) -> Dict:
+    def _interpret_response_soup(self, response_soup: BeautifulSoup) -> EventData:
         raise NotImplementedError()
 
 
