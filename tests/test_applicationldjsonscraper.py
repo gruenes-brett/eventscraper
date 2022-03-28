@@ -24,6 +24,7 @@ def test_convert_numbers_to_strings_in_json():
     }
     ''' == replaced
 
+
 def test_clean_invalid_json():
     cleaned = ApplicationLdJsonScraper.clean_invalid_json('''
     {
@@ -42,19 +43,40 @@ def test_clean_invalid_json():
     ''' == cleaned
 
 
+def test_fix_unescaped_quotes():
+    cleaned = ApplicationLdJsonScraper.fix_unescaped_quotes('''
+    {
+        "some": "where",
+        "over": "the "rainbow"",
+        "way": {
+            "up": ""high""
+        }
+    }
+    ''')
+
+    assert r'''
+    {
+        "some": "where",
+        "over": "the \"rainbow\"",
+        "way": {
+            "up": "\"high\""
+        }
+    }
+    ''' == cleaned
+
+
 def test_drop_invalid_lines():
     cleaned = ApplicationLdJsonScraper.drop_invalid_lines('''
     {
         "some": "where",
         "over": "the "rainbow"",
-        "way": "up high"
+        "way": up high"
     }
     ''')
 
     assert '''
     {
         "some": "where",
-        "way": "up high"
     }
     ''' == cleaned
 
@@ -78,11 +100,12 @@ def test_remove_superfluous_commata():
 
 
 def test_fix_timezone():
-    data = {}
-    data['mydate1'] = '2022-03-28T23:11:00+00:00'
-    data['mydate2'] = '2022-03-28T13:11:00+00:00'
-    data['mydate3'] = '2022-03-28T00:11:00+00:00'
-    data['badformat'] = 'asdf'
+    data = {
+        'mydate1': '2022-03-28T23:11:00+00:00',
+        'mydate2': '2022-03-28T13:11:00+00:00',
+        'mydate3': '2022-03-28T00:11:00+00:00',
+        'badformat': 'asdf',
+    }
 
     ApplicationLdJsonScraper.fix_timezone(data, 'mydate1')
     assert '2022-03-29T01:11' == data['mydate1']

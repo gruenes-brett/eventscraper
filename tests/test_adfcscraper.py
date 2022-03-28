@@ -19,7 +19,9 @@ def test_adfc2_problematic(scraper_dummy: Type[Scraper]):
     event_data = scraper_dummy.scrape('https://touren-termine.adfc.de/radveranstaltung/adfc2_problematic.html')
     assert event_data.title == 'Online moderieren und aktivieren (online)'
     assert event_data.location == 'Mohrenstraße 69, 10117 Berlin'
-    assert event_data.description == '! Could not read description !'
+    assert event_data.description == 'Die ADFC-Akademie lädt zum Online-Workshop mit Jana Piske, Coach für digitale ' \
+                                     'Teams, ein. Das Thema lautet: "Online moderieren und aktivieren - Kampfansage ' \
+                                     'an langweilige online Meetings".'
     assert event_data.url == 'https://touren-termine.adfc.de/radveranstaltung/adfc2_problematic.html'
     assert event_data.start_date == '2022-04-09T10:00'
     assert event_data.end_date == '2022-04-09T13:00'

@@ -37,6 +37,26 @@ class ApplicationLdJsonScraper(Scraper, ABC):
         return json_string.replace('<!---->', '')
 
     @staticmethod
+    def fix_unescaped_quotes(json_string: str):
+        """Escape double-quotes in the value-side string.
+
+        "key": "bad "quotes"" --> "key": "bad \"quotes\""
+        """
+        value_re = re.compile(r'^(?P<first>\s*"\w+"\s*:\s*")(?P<value>.*)(?P<last>"\s*,?\s*)$')
+        output_lines = []
+        for line in json_string.split('\n'):
+            value_match = value_re.match(line)
+            if value_match:
+                escaped_value = value_match.group('value').replace('"', r'\"')
+                output_lines.append(value_re.sub(
+                    rf'\g<first>{escaped_value}\g<last>',
+                    line)
+                )
+            else:
+                output_lines.append(line)
+        return '\n'.join(output_lines)
+
+    @staticmethod
     def drop_invalid_lines(json_string: str):
         """Try to interpret json line by line and drop lines that give an error
         """
@@ -82,6 +102,7 @@ class ApplicationLdJsonScraper(Scraper, ABC):
         data = self._parse_json(matches[0], cleanup_methods=[
             self.convert_numbers_to_strings_in_json,
             self.clean_invalid_json,
+            self.fix_unescaped_quotes,
             self.drop_invalid_lines,
             self.remove_superfluous_commata,
         ])
