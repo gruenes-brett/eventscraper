@@ -10,8 +10,8 @@ def test_adfc1(scraper_dummy: Type[Scraper]):
     assert 'Nach 100 Tagen Ampel-Koalition wird wohl feststehen:' in event_data.description
     assert event_data.description.endswith('Future auf die Straße.')
     assert event_data.url == 'https://touren-termine.adfc.de/radveranstaltung/adfc1.html'
-    assert event_data.start_date == '2022-03-25T09:00:00+00:00'
-    assert event_data.end_date == '2022-03-25T17:00:00+00:00'
+    assert event_data.start_date == '2022-03-25T10:00'
+    assert event_data.end_date == '2022-03-25T18:00'
     assert event_data.organizer == ''
 
 
@@ -21,6 +21,6 @@ def test_adfc2_problematic(scraper_dummy: Type[Scraper]):
     assert event_data.location == 'Mohrenstraße 69, 10117 Berlin'
     assert event_data.description == '! Could not read description !'
     assert event_data.url == 'https://touren-termine.adfc.de/radveranstaltung/adfc2_problematic.html'
-    assert event_data.start_date == '2022-04-09T08:00:00+00:00'
-    assert event_data.end_date == '2022-04-09T11:00:00+00:00'
+    assert event_data.start_date == '2022-04-09T10:00'
+    assert event_data.end_date == '2022-04-09T13:00'
     assert event_data.organizer == ''
