@@ -68,7 +68,8 @@ class ApplicationLdJsonScraper(Scraper, ABC):
     def fix_timezone(data: Dict, key: str):
         """Convert UTC timestamp string to local time zone"""
         try:
-            date = dateutil.parser.isoparse(data[key]).astimezone(tz.gettz('Europe / Berlin'))
+            utc_date = dateutil.parser.isoparse(data[key]).replace(tzinfo=tz.gettz('UTC'))
+            date = utc_date.astimezone(tz.gettz('Europe/Berlin'))
             data[key] = date.strftime('%Y-%m-%dT%H:%M')
         except (KeyError, ValueError) as e:
             log.warning(f'Could not parse datetime for {key}: {e}')
