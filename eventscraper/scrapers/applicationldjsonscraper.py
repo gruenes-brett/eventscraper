@@ -4,6 +4,9 @@ import re
 from abc import ABC
 from typing import Dict, List, Callable
 
+import dateutil.parser
+from dateutil import tz
+
 from ..eventdata import EventData
 from ..scraper import Scraper
 
@@ -61,6 +64,15 @@ class ApplicationLdJsonScraper(Scraper, ABC):
             return ApplicationLdJsonScraper.remove_superfluous_commata(cleaned)
         return cleaned
 
+    @staticmethod
+    def fix_timezone(data: Dict, key: str):
+        """Convert UTC timestamp string to local time zone"""
+        try:
+            date = dateutil.parser.isoparse(data[key]).astimezone(tz.gettz('Europe / Berlin'))
+            data[key] = date.strftime('%Y-%m-%dT%H:%M')
+        except (KeyError, ValueError) as e:
+            log.warning(f'Could not parse datetime for {key}: {e}')
+
     def _interpret_response(self, response: str):
         matches = self.PAYLOAD_MATCHER.findall(response)
         if not matches:
@@ -72,6 +84,9 @@ class ApplicationLdJsonScraper(Scraper, ABC):
             self.drop_invalid_lines,
             self.remove_superfluous_commata,
         ])
+
+        self.fix_timezone(data, 'startDate')
+        self.fix_timezone(data, 'endDate')
 
         event_data = EventData(
             title=data.get('name'),

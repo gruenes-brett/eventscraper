@@ -75,3 +75,24 @@ def test_remove_superfluous_commata():
         "over": {
             "the": "rainbow" } }
     ''' == cleaned
+
+
+def test_fix_timezone():
+    data = {}
+    data['mydate1'] = '2022-03-28T23:11:00+00:00'
+    data['mydate2'] = '2022-03-28T13:11:00+00:00'
+    data['mydate3'] = '2022-03-28T00:11:00+00:00'
+    data['badformat'] = 'asdf'
+
+    ApplicationLdJsonScraper.fix_timezone(data, 'mydate1')
+    assert '2022-03-29T01:11' == data['mydate1']
+
+    ApplicationLdJsonScraper.fix_timezone(data, 'mydate2')
+    assert '2022-03-28T15:11' == data['mydate2']
+
+    ApplicationLdJsonScraper.fix_timezone(data, 'mydate3')
+    assert '2022-03-28T02:11' == data['mydate3']
+
+    # expect no error
+    ApplicationLdJsonScraper.fix_timezone(data, 'no_key')
+    ApplicationLdJsonScraper.fix_timezone(data, 'badformat')
